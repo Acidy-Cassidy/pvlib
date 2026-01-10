@@ -7,6 +7,9 @@ Core plotting classes.
 from typing import Optional, Tuple, List, Union, Any
 import math
 
+# Store built-in range to avoid shadowing by parameter names
+_range = range
+
 from .colors import (
     to_hex, Cycler, DEFAULT_COLORS, parse_fmt,
     LINE_STYLES, MARKERS, get_cmap
@@ -304,19 +307,20 @@ class Axes:
 
     def hist(self, x, bins=10, range=None, density=False, **kwargs):
         """Create a histogram"""
-        # Calculate histogram
-        if range is None:
-            range = (min(x), max(x))
+        # Save range parameter to avoid shadowing built-in
+        data_range = range
+        if data_range is None:
+            data_range = (min(x), max(x))
 
         bin_edges = []
-        bin_width = (range[1] - range[0]) / bins
-        for i in range(bins + 1):
-            bin_edges.append(range[0] + i * bin_width)
+        bin_width = (data_range[1] - data_range[0]) / bins
+        for i in _range(bins + 1):
+            bin_edges.append(data_range[0] + i * bin_width)
 
         # Count values in each bin
         counts = [0] * bins
         for val in x:
-            for i in range(bins):
+            for i in _range(bins):
                 if bin_edges[i] <= val < bin_edges[i + 1]:
                     counts[i] += 1
                     break
@@ -329,7 +333,7 @@ class Axes:
             counts = [c / total if total > 0 else 0 for c in counts]
 
         # Create bars
-        centers = [(bin_edges[i] + bin_edges[i + 1]) / 2 for i in range(bins)]
+        centers = [(bin_edges[i] + bin_edges[i + 1]) / 2 for i in _range(bins)]
         bars = self.bar(centers, counts, width=bin_width * 0.9, **kwargs)
 
         return counts, bin_edges, bars

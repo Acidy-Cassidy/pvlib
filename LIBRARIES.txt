@@ -1,0 +1,650 @@
+================================================================================
+                        MYPYLIBS - CUSTOM PYTHON LIBRARIES
+================================================================================
+
+This directory contains custom Python library implementations that mirror the
+APIs of popular Python packages. These libraries are designed to be drop-in
+replacements for their original counterparts, allowing you to use familiar
+syntax without external dependencies.
+
+================================================================================
+                              LIBRARY OVERVIEW
+================================================================================
+
+    Library         | Mimics      | Version | Description
+    ----------------|-------------|---------|--------------------------------
+    mynumpy         | numpy       | 0.1.0   | Numerical computing & arrays
+    mypandas        | pandas      | 0.1.0   | Data manipulation & analysis
+    myrequests      | requests    | 1.0.0   | HTTP client (API structure)
+    mytqdm          | tqdm        | 1.0.0   | Progress bars
+    mycolorama      | colorama    | 1.0.0   | Terminal colors & styling
+    mypsutil        | psutil      | 1.0.0   | System & process utilities
+    mypytest        | pytest      | 1.0.0   | Testing framework
+    mymatplotlib    | matplotlib  | 1.0.0   | Plotting & visualization
+    starrag         | (custom)    | 1.0.0   | RAG (Retrieval-Augmented Gen)
+
+
+================================================================================
+                              MYNUMPY (numpy)
+================================================================================
+
+Import: import mynumpy as np
+
+DESCRIPTION:
+    A numerical computing library providing N-dimensional array operations,
+    linear algebra, and mathematical functions.
+
+ARRAY CREATION:
+    np.array(data)              Create array from list/nested lists
+    np.zeros(shape)             Array of zeros
+    np.ones(shape)              Array of ones
+    np.eye(n)                   Identity matrix
+    np.arange(start, stop, step) Range of values
+    np.linspace(start, stop, n) Linearly spaced values
+    np.full(shape, value)       Array filled with value
+    np.empty(shape)             Uninitialized array
+    np.diag(v)                  Diagonal matrix
+
+ARRAY PROPERTIES:
+    arr.shape                   Tuple of dimensions
+    arr.size                    Total number of elements
+    arr.ndim                    Number of dimensions
+    arr.dtype                   Data type
+    arr.T                       Transpose
+
+ARRAY METHODS:
+    arr.reshape(shape)          Reshape array
+    arr.flatten()               Flatten to 1D
+    arr.copy()                  Copy array
+    arr.sum(axis=None)          Sum elements
+    arr.mean(axis=None)         Mean of elements
+    arr.min(axis=None)          Minimum value
+    arr.max(axis=None)          Maximum value
+    arr.std(axis=None)          Standard deviation
+    arr.var(axis=None)          Variance
+
+MATHEMATICAL FUNCTIONS:
+    np.sum(arr)                 Sum
+    np.mean(arr)                Mean
+    np.min(arr), np.max(arr)    Min/Max
+    np.std(arr), np.var(arr)    Std deviation/Variance
+    np.argmax(arr), np.argmin(arr)  Index of min/max
+    np.dot(a, b)                Dot product
+    np.sqrt(arr)                Square root
+    np.exp(arr)                 Exponential
+    np.log(arr), np.log10(arr)  Logarithms
+    np.sin(arr), np.cos(arr), np.tan(arr)  Trigonometry
+    np.abs(arr)                 Absolute value
+    np.clip(arr, min, max)      Clip to range
+    np.floor(arr), np.ceil(arr) Floor/ceiling
+    np.round(arr, decimals)     Round
+
+ELEMENT-WISE OPERATIONS:
+    a + b, a - b                Addition, subtraction
+    a * b, a / b                Multiplication, division
+    a ** b                      Power
+    a @ b                       Matrix multiplication
+
+LINEAR ALGEBRA (np.linalg):
+    np.linalg.norm(arr)         Vector/matrix norm
+    np.linalg.dot(a, b)         Dot product
+
+UTILITY FUNCTIONS:
+    np.concatenate(arrays)      Join arrays
+    np.stack(arrays)            Stack arrays
+    np.vstack(arrays)           Vertical stack
+    np.hstack(arrays)           Horizontal stack
+    np.where(condition)         Where condition is true
+    np.unique(arr)              Unique values
+    np.sort(arr)                Sort array
+    np.argsort(arr)             Indices that would sort
+
+RANDOM (np.random):
+    np.random.rand(shape)       Uniform [0,1)
+    np.random.randn(shape)      Standard normal
+    np.random.randint(low,high) Random integers
+    np.random.choice(arr)       Random choice
+    np.random.shuffle(arr)      Shuffle in-place
+    np.random.seed(n)           Set random seed
+
+CONSTANTS:
+    np.pi, np.e                 Mathematical constants
+    np.inf, np.nan              Infinity, Not a Number
+    np.float32, np.float64      Data types
+    np.int32, np.int64          Data types
+
+EXAMPLE:
+    import mynumpy as np
+
+    arr = np.array([[1, 2, 3], [4, 5, 6]])
+    print(arr.shape)        # (2, 3)
+    print(np.mean(arr))     # 3.5
+    print(np.sum(arr, axis=0))  # Sum along columns
+
+
+================================================================================
+                              MYPANDAS (pandas)
+================================================================================
+
+Import: import mypandas as pd
+
+DESCRIPTION:
+    A data manipulation library providing DataFrame and Series structures
+    for tabular data analysis, with SQL and CSV I/O support.
+
+DATAFRAME CREATION:
+    pd.DataFrame(dict)          Create from dictionary
+    pd.DataFrame(data, columns) Create with column names
+    pd.read_csv(filepath)       Read CSV file
+    pd.read_csv(f, comment='#') Skip comment lines
+
+DATAFRAME PROPERTIES:
+    df.columns                  Column names
+    df.shape                    (rows, cols) tuple
+    df.dtypes                   Column data types
+    df.values                   Underlying data as list
+    df.index                    Row index
+
+DATAFRAME METHODS:
+    df.head(n)                  First n rows
+    df.tail(n)                  Last n rows
+    df.sort_values(col)         Sort by column
+    df.groupby(col)             Group by column
+    df.to_csv(path)             Write to CSV
+    df.to_sql(name, conn)       Write to SQL database
+
+COLUMN ACCESS:
+    df['column']                Get column as Series
+    df[['col1', 'col2']]        Get multiple columns
+
+ROW ACCESS:
+    df.iloc[n]                  Row by integer position
+    df.loc[label]               Row by label
+    df.iloc[start:end]          Slice rows
+
+FILTERING:
+    df[df['col'] > value]       Boolean indexing
+    df[df['col'] == value]      Equality filter
+    df[df['col'].isin(list)]    Filter by list membership
+
+SERIES OPERATIONS:
+    series.mean()               Mean
+    series.sum()                Sum
+    series.min(), series.max()  Min/Max
+    series.std()                Standard deviation
+    series.unique()             Unique values
+    series.value_counts()       Count occurrences
+
+MERGING:
+    pd.merge(df1, df2, on=col)  Merge on column
+    pd.merge(..., how='left')   Left join
+    pd.merge(..., suffixes=())  Column name suffixes
+
+SQL OPERATIONS:
+    df.to_sql(name, conn, if_exists='replace')
+    df.to_sql(name, conn, if_exists='append')
+
+EXAMPLE:
+    import mypandas as pd
+
+    df = pd.DataFrame({
+        'name': ['Alice', 'Bob', 'Charlie'],
+        'age': [25, 30, 35],
+        'salary': [50000, 60000, 70000]
+    })
+
+    print(df[df['age'] > 25])           # Filter
+    print(df.groupby('age').mean())     # Group by
+
+
+================================================================================
+                             MYREQUESTS (requests)
+================================================================================
+
+Import: import myrequests as requests
+
+DESCRIPTION:
+    An HTTP client library providing the requests API structure. Note that
+    this implementation provides API compatibility for testing/mocking but
+    does not make actual HTTP calls.
+
+HTTP METHODS:
+    requests.get(url)           GET request
+    requests.post(url, data)    POST request
+    requests.put(url, data)     PUT request
+    requests.delete(url)        DELETE request
+    requests.patch(url, data)   PATCH request
+    requests.head(url)          HEAD request
+
+SESSION:
+    session = requests.Session()
+    session.headers['Auth'] = 'Bearer token'
+    session.get(url)
+
+    with requests.Session() as s:
+        s.get(url)
+
+RESPONSE OBJECT:
+    response.status_code        HTTP status code (200, 404, etc.)
+    response.ok                 True if status < 400
+    response.content            Response body as bytes
+    response.text               Response body as string
+    response.json()             Parse JSON response
+    response.headers            Response headers (case-insensitive)
+    response.url                Request URL
+    response.raise_for_status() Raise HTTPError if status >= 400
+
+STATUS CODES:
+    requests.codes['ok']        200
+    requests.codes['created']   201
+    requests.codes['not_found'] 404
+    requests.codes['internal_server_error'] 500
+
+EXCEPTIONS:
+    requests.RequestException   Base exception
+    requests.HTTPError          HTTP error response
+    requests.ConnectionError    Connection failed
+    requests.Timeout            Request timed out
+
+EXAMPLE:
+    import myrequests as requests
+
+    # Session with auth header
+    session = requests.Session()
+    session.headers['Authorization'] = 'Bearer my-token'
+
+    # Response handling
+    from myrequests.models import Response
+    resp = Response()
+    resp.status_code = 200
+    resp._content = b'{"data": "value"}'
+    print(resp.json())  # {'data': 'value'}
+
+
+================================================================================
+                               MYTQDM (tqdm)
+================================================================================
+
+Import: from mytqdm import tqdm, trange
+
+DESCRIPTION:
+    A progress bar library for loops and iterables, providing visual feedback
+    for long-running operations.
+
+BASIC USAGE:
+    for item in tqdm(iterable):
+        process(item)
+
+    for i in trange(100):       # tqdm(range(n))
+        process(i)
+
+PARAMETERS:
+    tqdm(iterable, desc='text') Description prefix
+    tqdm(iterable, total=n)     Total count (for generators)
+    tqdm(iterable, disable=True) Disable output
+    tqdm(iterable, leave=False) Clear bar when done
+    tqdm(iterable, ncols=80)    Bar width
+    tqdm(iterable, unit='file') Unit name
+
+MANUAL CONTROL:
+    pbar = tqdm(total=100)
+    pbar.update(10)             Increment by 10
+    pbar.set_description('Processing')
+    pbar.set_postfix(loss=0.5)  Add stats
+    pbar.close()
+
+CONTEXT MANAGER:
+    with tqdm(total=100) as pbar:
+        for chunk in data:
+            process(chunk)
+            pbar.update(len(chunk))
+
+EXAMPLE:
+    from mytqdm import tqdm, trange
+    import time
+
+    # Basic iteration
+    for i in tqdm(range(100), desc="Processing"):
+        time.sleep(0.01)
+
+    # Manual progress
+    with tqdm(total=1000, desc="Downloading") as pbar:
+        for chunk in download():
+            pbar.update(len(chunk))
+            pbar.set_postfix(speed="1.2MB/s")
+
+
+================================================================================
+                            MYCOLORAMA (colorama)
+================================================================================
+
+Import: from mycolorama import Fore, Back, Style, Cursor, init
+
+DESCRIPTION:
+    A terminal text coloring library using ANSI escape sequences for
+    cross-platform colored terminal output.
+
+FOREGROUND COLORS (Fore):
+    Fore.BLACK, Fore.RED, Fore.GREEN, Fore.YELLOW
+    Fore.BLUE, Fore.MAGENTA, Fore.CYAN, Fore.WHITE
+    Fore.LIGHTRED_EX, Fore.LIGHTGREEN_EX, etc.
+    Fore.RESET                  Reset foreground
+
+BACKGROUND COLORS (Back):
+    Back.BLACK, Back.RED, Back.GREEN, Back.YELLOW
+    Back.BLUE, Back.MAGENTA, Back.CYAN, Back.WHITE
+    Back.LIGHTRED_EX, Back.LIGHTGREEN_EX, etc.
+    Back.RESET                  Reset background
+
+STYLES (Style):
+    Style.BRIGHT                Bold/bright
+    Style.DIM                   Dim
+    Style.NORMAL                Normal intensity
+    Style.RESET_ALL             Reset all attributes
+
+CURSOR CONTROL (Cursor):
+    Cursor.UP(n)                Move up n lines
+    Cursor.DOWN(n)              Move down n lines
+    Cursor.FORWARD(n)           Move right n columns
+    Cursor.BACK(n)              Move left n columns
+    Cursor.POS(x, y)            Move to position
+
+INITIALIZATION:
+    init()                      Initialize colorama
+    init(autoreset=True)        Auto-reset after each print
+    deinit()                    Restore terminal
+    reinit()                    Re-initialize
+    just_fix_windows_console()  Windows-specific fix
+
+EXAMPLE:
+    from mycolorama import Fore, Back, Style, init
+
+    init()
+
+    print(f"{Fore.RED}Error:{Style.RESET_ALL} Something went wrong")
+    print(f"{Fore.GREEN}Success!{Style.RESET_ALL}")
+    print(f"{Style.BRIGHT}{Fore.YELLOW}Warning{Style.RESET_ALL}")
+    print(f"{Fore.WHITE}{Back.RED}CRITICAL{Style.RESET_ALL}")
+
+
+================================================================================
+                              MYPSUTIL (psutil)
+================================================================================
+
+Import: import mypsutil as psutil
+
+DESCRIPTION:
+    A system monitoring library providing information about CPU, memory,
+    disk, network, and processes.
+
+CPU FUNCTIONS:
+    psutil.cpu_count(logical=True)   Number of CPUs
+    psutil.cpu_times()               CPU times (user, system, idle)
+    psutil.cpu_percent(interval)     CPU usage percentage
+    psutil.cpu_freq()                CPU frequency (current, min, max)
+    psutil.getloadavg()              Load average (1, 5, 15 min)
+
+MEMORY FUNCTIONS:
+    psutil.virtual_memory()          RAM info (total, available, used, %)
+    psutil.swap_memory()             Swap info (total, used, free, %)
+
+DISK FUNCTIONS:
+    psutil.disk_usage('/')           Disk usage (total, used, free, %)
+    psutil.disk_partitions()         List partitions
+    psutil.disk_io_counters()        Disk I/O stats
+
+NETWORK FUNCTIONS:
+    psutil.net_io_counters()         Network I/O (bytes sent/recv)
+    psutil.net_if_addrs()            Network interface addresses
+    psutil.net_if_stats()            Interface stats (up, mtu)
+
+PROCESS FUNCTIONS:
+    psutil.Process()                 Current process
+    psutil.Process(pid)              Process by PID
+    proc.pid                         Process ID
+    proc.name()                      Process name
+    proc.status()                    Status (running, sleeping, etc.)
+    proc.ppid()                      Parent PID
+    proc.memory_info()               Memory usage (rss, vms)
+    proc.cpu_times()                 CPU times (user, system)
+    proc.num_threads()               Thread count
+    proc.cwd()                       Working directory
+    proc.nice()                      Priority
+
+SYSTEM FUNCTIONS:
+    psutil.pids()                    List of all PIDs
+    psutil.pid_exists(pid)           Check if PID exists
+    psutil.boot_time()               System boot timestamp
+    psutil.users()                   Logged in users
+
+SENSORS:
+    psutil.sensors_temperatures()    Temperature sensors
+    psutil.sensors_battery()         Battery info
+
+PLATFORM CONSTANTS:
+    psutil.LINUX                     True if Linux
+    psutil.WINDOWS                   True if Windows
+    psutil.POSIX                     True if POSIX
+    psutil.ARCH                      Architecture string
+
+EXAMPLE:
+    import mypsutil as psutil
+
+    # System info
+    print(f"CPUs: {psutil.cpu_count()}")
+    print(f"RAM: {psutil.virtual_memory().percent}% used")
+    print(f"Disk: {psutil.disk_usage('/').percent}% used")
+
+    # Current process
+    proc = psutil.Process()
+    print(f"PID: {proc.pid}, Name: {proc.name()}")
+    print(f"Memory: {proc.memory_info().rss / 1024**2:.1f} MB")
+
+
+================================================================================
+                              MYPYTEST (pytest)
+================================================================================
+
+Import: import mypytest as pytest
+
+DESCRIPTION:
+    A testing framework providing test markers, fixtures, assertions,
+    and test discovery/execution infrastructure.
+
+MARKERS:
+    @pytest.mark.skip(reason="...")     Skip test
+    @pytest.mark.skipif(cond, reason="") Conditional skip
+    @pytest.mark.xfail(reason="...")    Expected failure
+    @pytest.mark.parametrize(args, vals) Parameterized test
+    @pytest.mark.slow                    Custom marker
+
+FIXTURES:
+    @pytest.fixture
+    def my_fixture():
+        return data
+
+    @pytest.fixture(scope='module')
+    def module_fixture():
+        yield resource
+        cleanup()
+
+ASSERTIONS:
+    pytest.raises(ExceptionType)        Assert exception raised
+    pytest.approx(value, rel=1e-6)      Approximate equality
+
+    pytest.assert_equal(a, b)           a == b
+    pytest.assert_not_equal(a, b)       a != b
+    pytest.assert_true(x)               x is True
+    pytest.assert_false(x)              x is False
+    pytest.assert_in(a, b)              a in b
+    pytest.assert_not_in(a, b)          a not in b
+    pytest.assert_is_none(x)            x is None
+    pytest.assert_is_not_none(x)        x is not None
+    pytest.assert_is_instance(x, type)  isinstance(x, type)
+    pytest.assert_greater(a, b)         a > b
+    pytest.assert_less(a, b)            a < b
+
+UTILITY FUNCTIONS:
+    pytest.has_marker(func, 'name')     Check if function has marker
+    pytest.get_markers(func)            Get all markers on function
+    pytest.get_fixture_manager()        Get fixture manager
+
+TEST INFRASTRUCTURE:
+    from mypytest.discovery import TestCollector, TestItem
+    from mypytest.runner import TestSession, TestRunner, TestOutcome
+    from mypytest.reporting import TestReporter
+
+EXAMPLE:
+    import mypytest as pytest
+
+    @pytest.fixture
+    def sample_data():
+        return [1, 2, 3, 4, 5]
+
+    @pytest.mark.parametrize("x,expected", [(1,1), (2,4), (3,9)])
+    def test_square(x, expected):
+        assert x ** 2 == expected
+
+    def test_division():
+        with pytest.raises(ZeroDivisionError):
+            1 / 0
+
+    def test_float():
+        assert 0.1 + 0.2 == pytest.approx(0.3)
+
+
+================================================================================
+                           MYMATPLOTLIB (matplotlib)
+================================================================================
+
+Import: import mymatplotlib.pyplot as plt
+
+DESCRIPTION:
+    A plotting library for creating visualizations. Outputs to SVG format.
+    Provides both object-oriented and pyplot (stateful) interfaces.
+
+FIGURE CREATION:
+    plt.figure(figsize=(8,6))           Create figure
+    plt.subplots()                      Figure with single axes
+    plt.subplots(nrows, ncols)          Figure with grid of axes
+    fig.add_subplot(nrows, ncols, idx)  Add subplot to figure
+
+PLOTTING FUNCTIONS:
+    ax.plot(x, y)                       Line plot
+    ax.plot(x, y, 'r--', label='data')  With style and label
+    ax.scatter(x, y, c='blue', marker='o')  Scatter plot
+    ax.bar(x, height)                   Bar chart
+    ax.barh(y, width)                   Horizontal bar chart
+    ax.hist(data, bins=10)              Histogram
+    ax.pie(sizes, labels=labels)        Pie chart
+    ax.imshow(image, cmap='viridis')    Display image
+    ax.fill(x, y)                       Filled polygon
+    ax.fill_between(x, y1, y2)          Fill between curves
+
+STYLING:
+    ax.set_xlabel('X Label')            X-axis label
+    ax.set_ylabel('Y Label')            Y-axis label
+    ax.set_title('Title')               Axes title
+    fig.suptitle('Super Title')         Figure title
+    ax.set_xlim(0, 10)                  X-axis limits
+    ax.set_ylim(0, 100)                 Y-axis limits
+    ax.set_xticks([0, 5, 10])           X tick positions
+    ax.set_yticks([0, 50, 100])         Y tick positions
+    ax.grid(True)                       Show grid
+    ax.legend()                         Show legend
+
+ANNOTATIONS:
+    ax.text(x, y, 'text')               Add text
+    ax.annotate('label', xy=(x,y))      Annotate point
+    ax.axhline(y=0)                     Horizontal line
+    ax.axvline(x=0)                     Vertical line
+
+FORMAT STRINGS:
+    'r'   Red           'b'   Blue          'g'   Green
+    'k'   Black         'w'   White         'y'   Yellow
+    '-'   Solid line    '--'  Dashed        ':'   Dotted
+    'o'   Circle        's'   Square        '^'   Triangle
+
+    Examples: 'ro-' (red circles, solid line)
+              'b--' (blue dashed line)
+              'g:o' (green dotted with circles)
+
+SAVING:
+    fig.savefig('plot.svg')             Save to SVG
+    plt.savefig('plot.svg')             Save current figure
+
+PYPLOT STATE FUNCTIONS:
+    plt.plot(x, y)                      Plot on current axes
+    plt.xlabel('X'), plt.ylabel('Y')    Set labels
+    plt.title('Title')                  Set title
+    plt.xlim(0, 10), plt.ylim(0, 100)   Set limits
+    plt.grid(True)                      Show grid
+    plt.legend()                        Show legend
+    plt.gcf()                           Get current figure
+    plt.gca()                           Get current axes
+    plt.close()                         Close figure
+    plt.show()                          Display (prints summary)
+
+MATH HELPERS:
+    plt.linspace(0, 10, 50)             Linearly spaced values
+    plt.arange(0, 10, 0.5)              Range of values
+    plt.sin(x), plt.cos(x)              Trig functions
+    plt.sqrt(x), plt.exp(x)             Math functions
+    plt.pi                              Pi constant
+
+COLORS MODULE:
+    from mymatplotlib.colors import to_hex, to_rgba, get_cmap
+    to_hex('red')                       Convert to hex
+    to_rgba('blue', alpha=0.5)          Convert to RGBA
+    get_cmap('viridis')                 Get colormap
+
+EXAMPLE:
+    import mymatplotlib.pyplot as plt
+
+    # Create figure with subplots
+    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(12, 5))
+
+    # Line plot
+    x = plt.linspace(0, 2 * plt.pi, 100)
+    ax1.plot(x, plt.sin(x), 'b-', label='sin(x)')
+    ax1.plot(x, plt.cos(x), 'r--', label='cos(x)')
+    ax1.set_xlabel('x')
+    ax1.set_ylabel('y')
+    ax1.set_title('Trigonometry')
+    ax1.legend()
+    ax1.grid(True)
+
+    # Bar chart
+    categories = [1, 2, 3, 4]
+    values = [10, 25, 15, 30]
+    ax2.bar(categories, values, color='green')
+    ax2.set_title('Bar Chart')
+
+    fig.savefig('example.svg')
+
+
+================================================================================
+                               STARRAG (custom)
+================================================================================
+
+Import: import starrag
+
+DESCRIPTION:
+    A Retrieval-Augmented Generation (RAG) library for document ingestion,
+    embedding, and semantic search. Custom implementation for working with
+    text documents and embeddings.
+
+MODULES:
+    starrag.ingest               Document ingestion
+    starrag.embeddings           Text embeddings
+    starrag.query                Semantic search
+    starrag.cards                Document cards/chunks
+    starrag.config               Configuration
+    starrag.output               Output formatting
+    starrag.utils                Utilities
+    starrag.cli                  Command-line interface
+
+
+================================================================================
+                              END OF DOCUMENTATION
+================================================================================

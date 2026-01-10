@@ -7,7 +7,7 @@ import math as _math
 from .array import array, ndarray
 from .operations import zeros, ones, arange, linspace, reshape, eye, identity, diag, full, empty
 from .math import (sum, mean, min, max, dot, sqrt, abs, power, exp, log, log10,
-                   sin, cos, tan, clip, matmul, floor, ceil, round, std)
+                   sin, cos, tan, clip, matmul, floor, ceil, round, std, var)
 from .utils import concatenate, stack, vstack, hstack, split, where, argmax, argmin, argsort, sort, unique, flatten
 from . import random
 from . import linalg
@@ -57,7 +57,7 @@ __all__ = [
     "array", "ndarray", "asarray", "astype",
     "zeros", "ones", "arange", "linspace", "reshape", "eye", "identity", "diag", "full", "empty",
     "sum", "mean", "min", "max", "dot", "sqrt", "abs", "power", "exp", "log", "log10",
-    "sin", "cos", "tan", "clip", "matmul", "floor", "ceil", "round", "std",
+    "sin", "cos", "tan", "clip", "matmul", "floor", "ceil", "round", "std", "var",
     "concatenate", "stack", "vstack", "hstack", "split", "where", "argmax", "argmin", "argsort", "sort", "unique", "flatten",
     "random", "linalg",
     "pi", "e", "inf", "nan", "newaxis",

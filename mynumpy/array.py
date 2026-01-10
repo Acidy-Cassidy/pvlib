@@ -295,6 +295,12 @@ class ndarray:
             return math.sqrt(variance)
         raise NotImplementedError("Axis-based std not yet implemented")
 
+    def var(self, axis=None):
+        if axis is None:
+            m = self.mean()
+            return sum((x - m) ** 2 for x in self._data) / len(self._data)
+        raise NotImplementedError("Axis-based var not yet implemented")
+
 
 def array(data, dtype=None) -> ndarray:
     """Create an ndarray from input data"""

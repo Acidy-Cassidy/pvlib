@@ -35,6 +35,11 @@ def std(arr: ndarray, axis=None):
     return arr.std(axis)
 
 
+def var(arr: ndarray, axis=None):
+    """Variance of array elements"""
+    return arr.var(axis)
+
+
 def sqrt(arr: Union[ndarray, int, float]) -> ndarray:
     """Element-wise square root"""
     if isinstance(arr, (int, float)):
