@@ -15,6 +15,8 @@ import mypsutil
 import mypytest
 import mymatplotlib
 import mymatplotlib.pyplot as plt
+import mybeautifulsoup
+from mybeautifulsoup import BeautifulSoup, Tag, NavigableString, Comment
 import sqlite3
 import tempfile
 import os
@@ -1346,6 +1348,379 @@ def test_matplotlib_savefig():
     return True
 
 
+def test_beautifulsoup_basics():
+    """Basic BeautifulSoup operations"""
+    print("\n" + "=" * 50)
+    print("BEAUTIFULSOUP BASICS")
+    print("=" * 50)
+
+    print(f"mybeautifulsoup version: {mybeautifulsoup.__version__}")
+
+    # Parse simple HTML
+    html = """
+    <html>
+        <head><title>Test Page</title></head>
+        <body>
+            <h1>Welcome</h1>
+            <p class="intro">This is a test.</p>
+            <p class="content">More content here.</p>
+        </body>
+    </html>
+    """
+
+    soup = BeautifulSoup(html, 'html.parser')
+
+    print(f"\nParsed HTML:")
+    print(f"  Title: {soup.title.string}")
+    print(f"  H1: {soup.h1.string}")
+    print(f"  Body exists: {soup.body is not None}")
+
+    # Test find
+    intro = soup.find('p', class_='intro')
+    print(f"\nfind('p', class_='intro'):")
+    print(f"  Text: {intro.string}")
+    print(f"  Class: {intro.get('class')}")
+
+    # Test find_all
+    paragraphs = soup.find_all('p')
+    print(f"\nfind_all('p'):")
+    print(f"  Count: {len(paragraphs)}")
+    for i, p in enumerate(paragraphs):
+        print(f"  P{i+1}: {p.string}")
+
+    return True
+
+
+def test_beautifulsoup_navigation():
+    """Test tree navigation"""
+    print("\n" + "=" * 50)
+    print("BEAUTIFULSOUP NAVIGATION")
+    print("=" * 50)
+
+    html = """
+    <div id="container">
+        <ul>
+            <li>Item 1</li>
+            <li>Item 2</li>
+            <li>Item 3</li>
+        </ul>
+        <p>Paragraph after list</p>
+    </div>
+    """
+
+    soup = BeautifulSoup(html, 'html.parser')
+
+    # Test children
+    container = soup.find('div', id='container')
+    print(f"\nContainer children:")
+    for child in container.children:
+        if isinstance(child, Tag):
+            print(f"  Tag: <{child.name}>")
+
+    # Test descendants
+    print(f"\nAll descendants (tags only):")
+    for desc in container.descendants:
+        if isinstance(desc, Tag):
+            print(f"  <{desc.name}>")
+
+    # Test siblings
+    ul = soup.find('ul')
+    next_sib = ul.find_next_sibling('p')
+    print(f"\nNext sibling of <ul>: {next_sib.string if next_sib else None}")
+
+    # Test parent
+    li = soup.find('li')
+    print(f"\nParent of first <li>: <{li.parent.name}>")
+
+    # Test parents chain
+    print(f"\nParent chain of first <li>:")
+    for parent in li.parents:
+        print(f"  <{parent.name}>")
+
+    return True
+
+
+def test_beautifulsoup_css_selectors():
+    """Test CSS selector support"""
+    print("\n" + "=" * 50)
+    print("BEAUTIFULSOUP CSS SELECTORS")
+    print("=" * 50)
+
+    html = """
+    <div class="main">
+        <article id="post-1" class="post featured">
+            <h2>First Post</h2>
+            <p class="summary">Summary 1</p>
+        </article>
+        <article id="post-2" class="post">
+            <h2>Second Post</h2>
+            <p class="summary">Summary 2</p>
+        </article>
+        <aside class="sidebar">
+            <p>Sidebar content</p>
+        </aside>
+    </div>
+    """
+
+    soup = BeautifulSoup(html, 'html.parser')
+
+    # Select by class
+    posts = soup.select('.post')
+    print(f"\nselect('.post'):")
+    print(f"  Count: {len(posts)}")
+    for p in posts:
+        print(f"  ID: {p.get('id')}")
+
+    # Select by ID
+    post1 = soup.select_one('#post-1')
+    print(f"\nselect_one('#post-1'):")
+    print(f"  Found: {post1 is not None}")
+    print(f"  Classes: {post1.get('class')}")
+
+    # Select by tag
+    h2s = soup.select('h2')
+    print(f"\nselect('h2'):")
+    print(f"  Count: {len(h2s)}")
+    for h in h2s:
+        print(f"  Text: {h.string}")
+
+    # Select by multiple classes
+    featured = soup.select('.post.featured')
+    print(f"\nselect('.post.featured'):")
+    print(f"  Count: {len(featured)}")
+
+    # Select by attribute
+    summaries = soup.select('p.summary')
+    print(f"\nselect('p.summary'):")
+    print(f"  Count: {len(summaries)}")
+
+    return True
+
+
+def test_beautifulsoup_modification():
+    """Test tree modification"""
+    print("\n" + "=" * 50)
+    print("BEAUTIFULSOUP MODIFICATION")
+    print("=" * 50)
+
+    html = "<div><p>Original</p></div>"
+    soup = BeautifulSoup(html, 'html.parser')
+
+    print(f"\nOriginal: {soup}")
+
+    # Modify text
+    p = soup.find('p')
+    p.string = "Modified"
+    print(f"After string change: {soup}")
+
+    # Add new tag
+    new_tag = soup.new_tag('span')
+    new_tag.string = 'Added span'
+    soup.div.append(new_tag)
+    print(f"After append: {soup}")
+
+    # Modify attributes
+    soup.div['class'] = 'container'
+    soup.div['id'] = 'main'
+    print(f"After attrs: {soup}")
+
+    # Extract element
+    span = soup.find('span')
+    extracted = span.extract()
+    print(f"After extract: {soup}")
+    print(f"Extracted: {extracted}")
+
+    # Create and insert
+    new_p = soup.new_tag('p')
+    new_p.string = 'New paragraph'
+    soup.div.append(new_p)
+    print(f"After insert: {soup}")
+
+    return True
+
+
+def test_beautifulsoup_text_extraction():
+    """Test text extraction methods"""
+    print("\n" + "=" * 50)
+    print("BEAUTIFULSOUP TEXT EXTRACTION")
+    print("=" * 50)
+
+    html = """
+    <div>
+        <p>First paragraph.</p>
+        <p>Second <strong>paragraph</strong> with formatting.</p>
+        <ul>
+            <li>Item 1</li>
+            <li>Item 2</li>
+        </ul>
+    </div>
+    """
+
+    soup = BeautifulSoup(html, 'html.parser')
+
+    # get_text()
+    all_text = soup.get_text()
+    print(f"\nget_text():")
+    print(f"  Length: {len(all_text)} chars")
+    print(f"  Preview: {all_text[:50].strip()}...")
+
+    # get_text with separator
+    text_sep = soup.get_text(separator=' | ', strip=True)
+    print(f"\nget_text(separator=' | ', strip=True):")
+    print(f"  {text_sep[:60]}...")
+
+    # strings generator
+    print(f"\nstrings generator:")
+    for i, s in enumerate(soup.strings):
+        if i < 3:
+            print(f"  '{s.strip()}'")
+        else:
+            print(f"  ... and more")
+            break
+
+    # stripped_strings
+    print(f"\nstripped_strings:")
+    strings_list = list(soup.stripped_strings)
+    print(f"  Count: {len(strings_list)}")
+    for s in strings_list[:3]:
+        print(f"  '{s}'")
+
+    return True
+
+
+def test_beautifulsoup_encoding():
+    """Test encoding and special characters"""
+    print("\n" + "=" * 50)
+    print("BEAUTIFULSOUP ENCODING")
+    print("=" * 50)
+
+    # HTML with entities
+    html = "<p>Special chars: &amp; &lt; &gt; &quot; &nbsp;</p>"
+    soup = BeautifulSoup(html, 'html.parser')
+    print(f"\nEntity handling:")
+    print(f"  Input: {html}")
+    print(f"  Text: {soup.p.string}")
+
+    # Unicode content
+    unicode_html = "<p>Unicode: Hello</p>"
+    soup2 = BeautifulSoup(unicode_html, 'html.parser')
+    print(f"\nUnicode handling:")
+    print(f"  Text: {soup2.p.string}")
+
+    # Bytes input
+    bytes_html = b"<p>Bytes input</p>"
+    soup3 = BeautifulSoup(bytes_html, 'html.parser')
+    print(f"\nBytes input:")
+    print(f"  Text: {soup3.p.string}")
+    print(f"  Encoding: {soup3.original_encoding}")
+
+    # Prettify output
+    html = "<div><p>Nested</p><span>Content</span></div>"
+    soup4 = BeautifulSoup(html, 'html.parser')
+    print(f"\nPrettify:")
+    print(soup4.prettify()[:100])
+
+    return True
+
+
+def test_beautifulsoup_comments():
+    """Test comment handling"""
+    print("\n" + "=" * 50)
+    print("BEAUTIFULSOUP COMMENTS")
+    print("=" * 50)
+
+    html = """
+    <div>
+        <!-- This is a comment -->
+        <p>Visible content</p>
+        <!-- Another comment -->
+    </div>
+    """
+
+    soup = BeautifulSoup(html, 'html.parser')
+
+    # Find comments
+    print(f"\nFinding comments:")
+    for element in soup.descendants:
+        if isinstance(element, Comment):
+            print(f"  Comment: {element.strip()}")
+
+    # Regular text vs comments
+    p = soup.find('p')
+    print(f"\nParagraph text: {p.string}")
+
+    return True
+
+
+def test_beautifulsoup_scraping_patterns():
+    """Test common web scraping patterns"""
+    print("\n" + "=" * 50)
+    print("BEAUTIFULSOUP SCRAPING PATTERNS")
+    print("=" * 50)
+
+    # Simulated webpage HTML
+    html = """
+    <html>
+    <body>
+        <nav>
+            <a href="/">Home</a>
+            <a href="/about">About</a>
+            <a href="/contact">Contact</a>
+        </nav>
+        <main>
+            <article>
+                <h1>Article Title</h1>
+                <div class="meta">
+                    <span class="author">John Doe</span>
+                    <span class="date">2024-01-15</span>
+                </div>
+                <div class="content">
+                    <p>First paragraph of the article.</p>
+                    <p>Second paragraph with <a href="http://example.com">a link</a>.</p>
+                </div>
+            </article>
+        </main>
+        <footer>
+            <p>Copyright 2024</p>
+        </footer>
+    </body>
+    </html>
+    """
+
+    soup = BeautifulSoup(html, 'html.parser')
+
+    # Extract all links
+    links = soup.find_all('a')
+    print(f"\nAll links ({len(links)}):")
+    for link in links:
+        print(f"  {link.get('href')}: {link.string}")
+
+    # Extract article metadata
+    print(f"\nArticle metadata:")
+    title = soup.find('h1')
+    author = soup.find('span', class_='author')
+    date = soup.find('span', class_='date')
+    print(f"  Title: {title.string}")
+    print(f"  Author: {author.string}")
+    print(f"  Date: {date.string}")
+
+    # Extract article content
+    content = soup.find('div', class_='content')
+    paragraphs = content.find_all('p')
+    print(f"\nArticle paragraphs ({len(paragraphs)}):")
+    for i, p in enumerate(paragraphs):
+        print(f"  {i+1}: {p.get_text()[:40]}...")
+
+    # Navigation links only
+    nav = soup.find('nav')
+    nav_links = nav.find_all('a')
+    print(f"\nNavigation links:")
+    for link in nav_links:
+        print(f"  {link.string}: {link.get('href')}")
+
+    return True
+
+
 def run_all_tests():
     """Run all tests"""
     tests = [
@@ -1385,6 +1760,14 @@ def run_all_tests():
         ("Matplotlib Colors", test_matplotlib_colors),
         ("Matplotlib Pyplot", test_matplotlib_pyplot),
         ("Matplotlib Savefig", test_matplotlib_savefig),
+        ("BeautifulSoup Basics", test_beautifulsoup_basics),
+        ("BeautifulSoup Navigation", test_beautifulsoup_navigation),
+        ("BeautifulSoup CSS Selectors", test_beautifulsoup_css_selectors),
+        ("BeautifulSoup Modification", test_beautifulsoup_modification),
+        ("BeautifulSoup Text Extraction", test_beautifulsoup_text_extraction),
+        ("BeautifulSoup Encoding", test_beautifulsoup_encoding),
+        ("BeautifulSoup Comments", test_beautifulsoup_comments),
+        ("BeautifulSoup Scraping Patterns", test_beautifulsoup_scraping_patterns),
     ]
 
     results = []
