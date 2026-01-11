@@ -7,14 +7,48 @@ be imported from anywhere on your system.
 
 
 ================================================================================
-                            QUICK INSTALLATION
+                    AUTOMATED INSTALLATION (Ubuntu/Debian)
 ================================================================================
 
-The fastest way to make these libraries available system-wide is to create a
-.pth file in Python's site-packages directory.
+For Ubuntu and Debian-based Linux systems, use the automated install script:
+
+INSTALL:
+--------
+    sudo ./install.sh
+
+INSTALL AND RUN TESTS:
+----------------------
+    sudo ./install.sh --test
+
+CHECK STATUS:
+-------------
+    ./install.sh --check
+
+UNINSTALL:
+----------
+    sudo ./install.sh --remove
+
+HELP:
+-----
+    ./install.sh --help
+
+The script will:
+    - Verify Ubuntu/Debian OS
+    - Check Python 3.8+ is installed
+    - Find the correct site-packages directory
+    - Create the .pth file for system-wide access
+    - Verify all libraries can be imported
+    - Optionally run the test suite
+
+
+================================================================================
+                    MANUAL INSTALLATION (All Platforms)
+================================================================================
+
+For other operating systems or manual installation, follow these steps:
 
 STEP 1: Find your Python site-packages directory
-------------------------------------------------
+-------------------------------------------------
 
     python3 -c "import site; print(site.getsitepackages()[0])"
 
