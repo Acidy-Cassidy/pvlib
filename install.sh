@@ -281,6 +281,7 @@ try:
     import mypsutil
     import mypytest
     import mymatplotlib
+    import mybeautifulsoup
     print('OK')
 except ImportError as e:
     print(f'FAIL: {e}')
@@ -311,6 +312,7 @@ except ImportError as e:
     echo -e "    ${GREEN}import mypsutil as psutil${NC}"
     echo -e "    ${GREEN}import mypytest as pytest${NC}"
     echo -e "    ${GREEN}import mymatplotlib.pyplot as plt${NC}"
+    echo -e "    ${GREEN}from mybeautifulsoup import BeautifulSoup${NC}"
     echo ""
 
     if [ "$RUN_TESTS" == "true" ]; then
@@ -392,7 +394,7 @@ do_check() {
     echo "Library import status:"
     echo ""
 
-    LIBS=("mynumpy" "mypandas" "myrequests" "mytqdm" "mycolorama" "mypsutil" "mypytest" "mymatplotlib" "starrag")
+    LIBS=("mynumpy" "mypandas" "myrequests" "mytqdm" "mycolorama" "mypsutil" "mypytest" "mymatplotlib" "mybeautifulsoup")
 
     ALL_OK=true
     for lib in "${LIBS[@]}"; do
