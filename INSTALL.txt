@@ -82,6 +82,7 @@ STEP 3: Verify installation
         python3 -c "
         import mynumpy, mypandas, myrequests, mytqdm
         import mycolorama, mypsutil, mypytest, mymatplotlib
+        import mybeautifulsoup
         print('All libraries imported successfully!')
         "
 
@@ -126,6 +127,7 @@ Linux/macOS:
     sudo ln -s /opt/mypylibs/mypsutil $SITE/mypsutil
     sudo ln -s /opt/mypylibs/mypytest $SITE/mypytest
     sudo ln -s /opt/mypylibs/mymatplotlib $SITE/mymatplotlib
+    sudo ln -s /opt/mypylibs/mybeautifulsoup $SITE/mybeautifulsoup
 
 
 METHOD 4: pip install in editable mode
@@ -240,6 +242,9 @@ Once installed, use the libraries like their original counterparts:
     # Instead of: import matplotlib.pyplot as plt
     import mymatplotlib.pyplot as plt
 
+    # Instead of: from bs4 import BeautifulSoup
+    from mybeautifulsoup import BeautifulSoup
+
 
 ================================================================================
                            LIBRARY LOCATIONS
@@ -256,6 +261,7 @@ After installation, the libraries are located at:
     |-- mypsutil/         psutil replacement
     |-- mypytest/         pytest replacement
     |-- mymatplotlib/     Matplotlib replacement
+    |-- mybeautifulsoup/  BeautifulSoup replacement
     |-- test_libs.py      Test suite
     |-- LIBRARIES.txt     Library documentation
     |-- INSTALL.txt       This file
