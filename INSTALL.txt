@@ -126,7 +126,6 @@ Linux/macOS:
     sudo ln -s /opt/mypylibs/mypsutil $SITE/mypsutil
     sudo ln -s /opt/mypylibs/mypytest $SITE/mypytest
     sudo ln -s /opt/mypylibs/mymatplotlib $SITE/mymatplotlib
-    sudo ln -s /opt/mypylibs/starrag $SITE/starrag
 
 
 METHOD 4: pip install in editable mode
@@ -185,7 +184,6 @@ METHOD 2 (PYTHONPATH):
 METHOD 3 (Symbolic links):
 
     sudo rm /usr/local/lib/python3.12/dist-packages/my*
-    sudo rm /usr/local/lib/python3.12/dist-packages/starrag
 
 METHOD 4 (pip):
 
@@ -258,7 +256,6 @@ After installation, the libraries are located at:
     |-- mypsutil/         psutil replacement
     |-- mypytest/         pytest replacement
     |-- mymatplotlib/     Matplotlib replacement
-    |-- starrag/          RAG library (custom)
     |-- test_libs.py      Test suite
     |-- LIBRARIES.txt     Library documentation
     |-- INSTALL.txt       This file
