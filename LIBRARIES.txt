@@ -624,27 +624,5 @@ EXAMPLE:
 
 
 ================================================================================
-                               STARRAG (custom)
-================================================================================
-
-Import: import starrag
-
-DESCRIPTION:
-    A Retrieval-Augmented Generation (RAG) library for document ingestion,
-    embedding, and semantic search. Custom implementation for working with
-    text documents and embeddings.
-
-MODULES:
-    starrag.ingest               Document ingestion
-    starrag.embeddings           Text embeddings
-    starrag.query                Semantic search
-    starrag.cards                Document cards/chunks
-    starrag.config               Configuration
-    starrag.output               Output formatting
-    starrag.utils                Utilities
-    starrag.cli                  Command-line interface
-
-
-================================================================================
                               END OF DOCUMENTATION
 ================================================================================
