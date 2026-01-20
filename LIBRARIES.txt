@@ -21,7 +21,11 @@ syntax without external dependencies.
     mypsutil        | psutil      | 1.0.0   | System & process utilities
     mypytest        | pytest      | 1.0.0   | Testing framework
     mymatplotlib    | matplotlib  | 1.0.0   | Plotting & visualization
-    starrag         | (custom)    | 1.0.0   | RAG (Retrieval-Augmented Gen)
+    mybeautifulsoup | beautifulsoup| 0.1.0  | HTML parsing & CSS selectors
+    myhashlib       | hashlib     | 0.1.0   | Cryptographic hash functions
+    myfeedparser    | feedparser  | 0.1.0   | RSS/Atom feed parsing
+    mypypdf         | pypdf       | 0.1.0   | PDF reading, writing, merging
+    myreportlab     | reportlab   | 0.1.0   | PDF generation
 
 
 ================================================================================
@@ -621,6 +625,286 @@ EXAMPLE:
     ax2.set_title('Bar Chart')
 
     fig.savefig('example.svg')
+
+
+================================================================================
+                              MYHASHLIB (hashlib)
+================================================================================
+
+Import: import myhashlib as hashlib
+
+DESCRIPTION:
+    A cryptographic hashing library providing secure hash algorithms and
+    key derivation functions. Wraps Python's hashlib for educational purposes.
+
+HASH FUNCTIONS:
+    hashlib.md5(data)               MD5 hash (not secure, legacy use)
+    hashlib.sha1(data)              SHA-1 hash
+    hashlib.sha224(data)            SHA-224 hash
+    hashlib.sha256(data)            SHA-256 hash
+    hashlib.sha384(data)            SHA-384 hash
+    hashlib.sha512(data)            SHA-512 hash
+    hashlib.sha3_224(data)          SHA3-224 hash
+    hashlib.sha3_256(data)          SHA3-256 hash
+    hashlib.sha3_384(data)          SHA3-384 hash
+    hashlib.sha3_512(data)          SHA3-512 hash
+    hashlib.blake2b(data)           BLAKE2b hash
+    hashlib.blake2s(data)           BLAKE2s hash
+    hashlib.new(name, data)         Create hash by algorithm name
+
+HASH OBJECT METHODS:
+    h.update(data)                  Add more data
+    h.digest()                      Get binary digest
+    h.hexdigest()                   Get hex-encoded digest
+    h.copy()                        Copy hash object
+    h.name                          Algorithm name
+    h.digest_size                   Digest size in bytes
+    h.block_size                    Internal block size
+
+KEY DERIVATION:
+    hashlib.pbkdf2_hmac(name, password, salt, iterations, dklen)
+    hashlib.scrypt(password, salt=, n=, r=, p=, dklen=)
+
+MODULE ATTRIBUTES:
+    hashlib.algorithms_available    Set of available algorithms
+    hashlib.algorithms_guaranteed   Set of guaranteed algorithms
+
+EXAMPLE:
+    import myhashlib as hashlib
+
+    # Hash a string
+    h = hashlib.sha256(b"hello world")
+    print(h.hexdigest())
+
+    # Incremental hashing
+    h = hashlib.sha256()
+    h.update(b"hello ")
+    h.update(b"world")
+    print(h.hexdigest())
+
+    # Key derivation
+    key = hashlib.pbkdf2_hmac('sha256', b'password', b'salt', 100000)
+
+
+================================================================================
+                            MYFEEDPARSER (feedparser)
+================================================================================
+
+Import: import myfeedparser as feedparser
+
+DESCRIPTION:
+    A universal feed parser for RSS and Atom feeds. Parses feed content
+    from URLs, files, or strings and returns structured data.
+
+MAIN FUNCTION:
+    feedparser.parse(source)        Parse feed from URL, file, or string
+    feedparser.parse(url, etag=, modified=, agent=, request_headers=)
+
+RESULT OBJECT:
+    result.feed                     Feed metadata dict
+    result.entries                  List of entry dicts
+    result.bozo                     1 if feed is malformed
+    result.bozo_exception           Exception if malformed
+    result.version                  Feed version (rss20, atom10, etc.)
+    result.encoding                 Character encoding
+    result.headers                  HTTP headers (if URL)
+    result.status                   HTTP status code
+
+FEED ATTRIBUTES:
+    feed.title, feed.title_detail   Feed title
+    feed.link, feed.links           Feed links
+    feed.subtitle                   Feed description
+    feed.updated, feed.updated_parsed  Last update
+    feed.author, feed.author_detail Author info
+    feed.language                   Feed language
+    feed.tags                       Categories
+
+ENTRY ATTRIBUTES:
+    entry.title, entry.title_detail Entry title
+    entry.link, entry.links         Entry links
+    entry.summary, entry.summary_detail  Summary
+    entry.content                   Full content
+    entry.published, entry.published_parsed  Publication date
+    entry.updated, entry.updated_parsed  Update date
+    entry.author, entry.author_detail  Author
+    entry.id                        Unique identifier
+    entry.tags                      Categories
+    entry.enclosures                Media attachments
+
+SUPPORTED FORMATS:
+    RSS 0.9x, RSS 1.0, RSS 2.0
+    Atom 0.3, Atom 1.0
+
+EXAMPLE:
+    import myfeedparser as feedparser
+
+    # Parse an RSS feed
+    feed = feedparser.parse('https://example.com/feed.xml')
+
+    print(f"Feed: {feed.feed.title}")
+    print(f"Entries: {len(feed.entries)}")
+
+    for entry in feed.entries:
+        print(f"  - {entry.title}")
+        print(f"    {entry.link}")
+
+
+================================================================================
+                               MYPYPDF (pypdf)
+================================================================================
+
+Import: import mypypdf as pypdf
+
+DESCRIPTION:
+    A PDF manipulation library for reading, writing, and merging PDF files.
+    Supports basic PDF operations including text extraction.
+
+PDFREADER:
+    reader = pypdf.PdfReader(stream)
+    reader.pages                    List of PageObjects
+    reader.num_pages                Number of pages
+    reader.metadata                 Document information
+    reader.is_encrypted             Check if encrypted
+    reader.decrypt(password)        Decrypt PDF
+
+PAGEOBJECT:
+    page.extract_text()             Extract text content
+    page.mediabox                   Page dimensions
+    page.rotate(angle)              Rotate page
+    page.scale(sx, sy)              Scale page
+    page.merge_page(other)          Merge with another page
+    page.images                     List of embedded images
+
+PDFWRITER:
+    writer = pypdf.PdfWriter()
+    writer.add_page(page)           Add a page
+    writer.add_blank_page(w, h)     Add blank page
+    writer.insert_page(page, idx)   Insert at position
+    writer.add_metadata(dict)       Add document info
+    writer.write(stream)            Write to file
+
+PDFMERGER:
+    merger = pypdf.PdfMerger()
+    merger.append(fileobj)          Append all pages
+    merger.append(fileobj, pages=(start, end))
+    merger.merge(pos, fileobj)      Merge at position
+    merger.write(fileobj)           Write merged PDF
+    merger.close()                  Close and cleanup
+
+EXCEPTIONS:
+    pypdf.PdfReadError              Read error
+    pypdf.EmptyFileError            Empty file
+    pypdf.FileNotDecryptedError     Need decryption
+
+EXAMPLE:
+    import mypypdf as pypdf
+
+    # Read PDF
+    reader = pypdf.PdfReader("input.pdf")
+    print(f"Pages: {reader.num_pages}")
+
+    for page in reader.pages:
+        text = page.extract_text()
+        print(text)
+
+    # Create PDF
+    writer = pypdf.PdfWriter()
+    writer.add_blank_page(612, 792)
+    writer.add_metadata({"title": "My PDF"})
+    writer.write("output.pdf")
+
+    # Merge PDFs
+    merger = pypdf.PdfMerger()
+    merger.append("file1.pdf")
+    merger.append("file2.pdf")
+    merger.write("merged.pdf")
+    merger.close()
+
+
+================================================================================
+                            MYREPORTLAB (reportlab)
+================================================================================
+
+Import: import myreportlab
+        from myreportlab.pdfgen import canvas
+        from myreportlab.platypus import SimpleDocTemplate, Paragraph
+
+DESCRIPTION:
+    A PDF generation library for creating documents with text, graphics,
+    and tables. Supports both low-level Canvas drawing and high-level
+    PLATYPUS document templates.
+
+CANVAS (pdfgen):
+    c = canvas.Canvas(filename, pagesize=LETTER)
+    c.drawString(x, y, text)        Draw text at position
+    c.drawRightString(x, y, text)   Right-aligned text
+    c.drawCentredString(x, y, text) Centered text
+    c.setFont(name, size)           Set font
+    c.setFillColor(color)           Set fill color
+    c.setStrokeColor(color)         Set stroke color
+    c.rect(x, y, w, h, stroke, fill) Draw rectangle
+    c.circle(x, y, r, stroke, fill) Draw circle
+    c.line(x1, y1, x2, y2)          Draw line
+    c.showPage()                    Finish page
+    c.save()                        Save PDF
+
+PLATYPUS FLOWABLES:
+    Paragraph(text, style)          Formatted paragraph
+    Spacer(width, height)           Vertical space
+    Image(filename, width, height)  Image
+    Table(data, colWidths)          Table
+    PageBreak()                     Force page break
+
+DOCUMENT TEMPLATES:
+    doc = SimpleDocTemplate(filename, pagesize=LETTER)
+    doc.build(story)                Build document from flowables
+
+TABLE STYLING:
+    TableStyle([
+        ('BACKGROUND', (0,0), (-1,0), colors.grey),
+        ('TEXTCOLOR', (0,0), (-1,0), colors.white),
+        ('GRID', (0,0), (-1,-1), 1, colors.black),
+        ('ALIGN', (0,0), (-1,-1), 'CENTER'),
+    ])
+
+UNITS (lib.units):
+    inch, cm, mm, pica              Unit constants
+
+COLORS (lib.colors):
+    black, white, red, green, blue  Named colors
+    HexColor('#ff0000')             Hex color
+    Color(r, g, b, alpha)           RGB color
+
+PAGE SIZES (lib.pagesizes):
+    A4, LETTER, LEGAL, TABLOID      Standard sizes
+    landscape(size), portrait(size) Orientation
+
+STYLES (lib.styles):
+    getSampleStyleSheet()           Get default styles
+    ParagraphStyle(name, ...)       Custom style
+
+EXAMPLE:
+    from myreportlab.pdfgen import canvas
+    from myreportlab.lib.pagesizes import LETTER
+
+    # Low-level Canvas
+    c = canvas.Canvas("hello.pdf", pagesize=LETTER)
+    c.setFont("Helvetica", 12)
+    c.drawString(100, 700, "Hello, World!")
+    c.save()
+
+    # High-level PLATYPUS
+    from myreportlab.platypus import SimpleDocTemplate, Paragraph, Spacer
+    from myreportlab.lib.styles import getSampleStyleSheet
+
+    doc = SimpleDocTemplate("report.pdf")
+    styles = getSampleStyleSheet()
+    story = [
+        Paragraph("My Report", styles['Title']),
+        Spacer(1, 12),
+        Paragraph("This is the content.", styles['Normal']),
+    ]
+    doc.build(story)
 
 
 ================================================================================
